@@ -1,4 +1,26 @@
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+
+// 1. Переделайте makeGETRequest() так, чтобы она использовала промисы.
+function makeGETRequest(url) {
+    return new Promise(function (resolve, reject) {
+        let xhr;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xhr.open('GET', url, true);
+
+        xhr.onload = () => {
+            if (xhr.status === 200)
+                resolve(xhr.response);
+            else
+                reject(new Error(`${xhr.status}: ${xhr.statusText}`));
+        };
+        xhr.send();
+    })
+}
 class GoodsItem {
     constructor(title, price, image = 'img/pc.jpg') {
         this.product_name = title;
@@ -19,15 +41,14 @@ class GoodsItem {
 class GoodsList {
     constructor() {
         this.goods = [];
-        this._makeGETRequest()
+        this.fetchGoods()
             .then(data => {
                 this.goods = data;
                 this.render();
             });
     }
 
-    // 1. Переделайте makeGETRequest() так, чтобы она использовала промисы.
-    _makeGETRequest(url = `${API_URL}/catalogData.json`) {
+    fetchGoods(url = `${API_URL}/catalogData.json`) {
         return fetch(url)
             .then(response => response.json())
     }
@@ -75,14 +96,14 @@ class CartItem {
 class CartList {
     constructor() {
         this.carts = [];
-        this._makeGETRequest(`${API_URL}/getBasket.json`)
+        this.fetchGoods(`${API_URL}/getBasket.json`)
             .then(data => {
                 this.carts = data.contents;
                 this.render();
             });
     }
 
-    _makeGETRequest(url = `${API_URL}/getBasket.json`) {
+    fetchGoods(url = `${API_URL}/getBasket.json`) {
         return fetch(url)
             .then(response => response.json())
     }
@@ -90,7 +111,6 @@ class CartList {
     render() {
         let listHTML = '';
         this.carts.forEach(cart => {
-            console.log(cart);
             const cartItem = new CartItem(cart.product_name, cart.price, cart.quantity);
             listHTML += cartItem.render();
         });
