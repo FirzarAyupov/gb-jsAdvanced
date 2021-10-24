@@ -1,13 +1,14 @@
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 class GoodsItem {
     constructor(title, price, image = 'img/pc.jpg') {
-        this.title = title;
+        this.product_name = title;
         this.price = price;
         this.image = image;
     }
     render() {
         return `<div class="goods-item">
         <img src=${this.image}>
-        <h3>${this.title}</h3>
+        <h3>${this.product_name}</h3>
         <p>${this.price}</p>
         <button class="buy-btn">Купить</button>
     </div>`
@@ -18,17 +19,19 @@ class GoodsItem {
 class GoodsList {
     constructor() {
         this.goods = [];
-    }
-    fetchGoods() {
-        this.goods = [
-            { id: 1, title: 'Notebook', price: 2000 },
-            { id: 2, title: 'Mouse', price: 20 },
-            { id: 3, title: 'Keyboard', price: 200 },
-            { id: 4, title: 'Gamepad', price: 50 },
-        ]
+        this._makeGETRequest()
+            .then(data => {
+                this.goods = data;
+                this.render();
+            });
     }
 
-    // 2. Добавьте для GoodsList метод, определяющий суммарную стоимость всех товаров.
+    // 1. Переделайте makeGETRequest() так, чтобы она использовала промисы.
+    _makeGETRequest(url = `${API_URL}/catalogData.json`) {
+        return fetch(url)
+            .then(response => response.json())
+    }
+
     getSum() {
         let sum = 0;
         this.goods.forEach(function (item) {
@@ -40,35 +43,66 @@ class GoodsList {
     render() {
         let listHTML = '';
         this.goods.forEach(good => {
-            const goodItem = new GoodsItem(good.title, good.price);
+            const goodItem = new GoodsItem(good.product_name, good.price);
             listHTML += goodItem.render();
         });
         document.querySelector('.goods-list').innerHTML = listHTML;
     }
 }
 
-const list = new GoodsList();
-list.fetchGoods();
-list.render();
-alert(list.getSum());
-
-// 1. Добавьте пустые классы для корзины товаров и элемента корзины товаров.
-// Продумайте, какие методы понадобятся для работы с этими сущностями.
-
 class CartItem {
-    constructor(good, count) {
-        this.good = good;
-        this.count = count;
+    constructor(product_name, price, quantity) {
+        this.product_name = product_name;
+        this.price = +price;
+        this.quantity = quantity;
+        this.amount = this.price * this.quantity;
+    }
+
+    render() {
+        return `<div class="cart-item">
+        <div><p class='cart-item-title'>${this.product_name}</p>
+        <p class='cart-item-price'>Цена: ${this.price}</p>
+        <p class='cart-item-quantity'>Количество: ${this.quantity}</p></div>
+        <p class='cart-item-amount'>${this.amount}</p>
+        <button class="cart-item-del">X</button>
+    </div>`
+
     }
     addCount() { }   //увеличить количество
     removeCount() { }    //уменшить количество
-
 }
+
 class CartList {
     constructor() {
         this.carts = [];
+        this._makeGETRequest(`${API_URL}/getBasket.json`)
+            .then(data => {
+                this.carts = data.contents;
+                this.render();
+            });
     }
+
+    _makeGETRequest(url = `${API_URL}/getBasket.json`) {
+        return fetch(url)
+            .then(response => response.json())
+    }
+
+    render() {
+        let listHTML = '';
+        this.carts.forEach(cart => {
+            console.log(cart);
+            const cartItem = new CartItem(cart.product_name, cart.price, cart.quantity);
+            listHTML += cartItem.render();
+        });
+        document.querySelector('.cart').innerHTML = listHTML;
+    }
+
+    // 2. Добавьте в соответствующие классы методы добавления товара в корзину, удаления товара из корзины и получения списка товаров корзины.
     addCartItem() { }    //добавление в корзину
     removeCartItem() { } //удаление из корзины
+    getCartList() { }
 
 }
+
+const list = new GoodsList();
+const carts = new CartList();
