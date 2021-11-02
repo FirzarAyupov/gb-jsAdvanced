@@ -13,7 +13,7 @@
         <header>
             <div class="logo">E-shop</div>
             <div class="cart">
-                <form action="#" class="search-form">
+                <form action="#" class="search-form" @submit.prevent="filterGoods">
                     <input type="text" class="search-field" v-model="searchLine">
                     <button class="btn-search" type="submit" @click="filterGoods()">
                         <i class="fas fa-search"></i>
@@ -23,7 +23,7 @@
                 <div class="cart-block" v-if="isVisibleCart">
                     <div class="cart-item" v-for="item of basket" :data-id="item.id_product">
                         <div class="product-bio">
-                            <img :src="item.img" alt="Some image">
+                            <img :src="imgBasket" alt="Some image">
                             <div class="product-desc">
                                 <p class="product-title">{{item.product_name}}</p>
                                 <p class="product-quantity">Quantity: {{item.quantity}}</p>
@@ -40,7 +40,7 @@
         </header>
         <main>
             <div class="products" v-if="products.length != 0">
-                <div class="product-item" v-for="product of products" :key="product.id_product">
+                <div class="product-item" v-for="product of filtered" :key="product.id_product">
                     <img :src="imgCatalog" alt="Some img">
                     <div class="desc">
                         <h3>{{product.product_name}}</h3>

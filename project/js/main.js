@@ -6,8 +6,10 @@ const app = new Vue({
         catalogUrl: '/catalogData.json',
         basketUrl: '/getBasket.json',
         products: [],
+        filtered: [],
         basket: [],
         imgCatalog: 'https://via.placeholder.com/200x150',
+        imgBasket: 'https://via.placeholder.com/100x75',
         userSearch: '',
         searchLine: '',
         show: false,
@@ -25,7 +27,8 @@ const app = new Vue({
             console.log(product.id_product);
         },
         filterGoods() {
-            console.log(this.searchLine);
+            let regexp = new RegExp(this.searchLine, 'i');
+            this.filtered = this.products.filter(el => regexp.test(el.product_name));
         }
     },
     mounted() {
@@ -33,12 +36,14 @@ const app = new Vue({
             .then(data => {
                 for (let el of data) {
                     this.products.push(el);
+                    this.filtered.push(el);
                 }
             });
         this.getJson(`getProducts.json`)
             .then(data => {
                 for (let el of data) {
                     this.products.push(el);
+                    this.filtered.push(el);
                 }
             });
         this.getJson(`${API + this.basketUrl}`)
