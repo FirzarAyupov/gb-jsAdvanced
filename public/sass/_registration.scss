@@ -1,0 +1,122 @@
+.regisration-page-form-wrp{
+display: flex;
+padding-top: 64px;
+padding-bottom: 96px;
+}
+.regisration-page-form{
+margin-right: 128px;
+min-width: 360px;
+}
+.regisration-page-form-username-group, .regisration-page-form-login-group{
+border: none;
+padding: 0;
+display: flex;
+flex-direction: column;
+}
+.regisration-page-form-item-title{
+font-weight: 300;
+font-size: 16px;
+line-height: 19px;
+}
+.regisration-page-form-input{    
+margin-top: 20px;
+height: 45px;
+max-width: 360px;
+padding: 14px 17px;
+box-sizing: border-box;
+border: 1px solid #A4A4A4;
+}
+.regisration-page-form-input::placeholder{
+font-weight: 300;
+font-size: 13px;
+line-height: 16px;
+}
+
+.regisration-page-form-sex{
+margin: 31px 0 33px;
+display: flex;
+
+li{
+list-style: none;
+margin-right: 20px;
+display: flex;
+align-items: center;        
+}
+
+input{
+margin-right: 10px;
+}
+
+label{
+font-weight: 300;
+font-size: 11px;
+line-height: 13px;
+}    
+}
+.regisration-page-form-pas-rule{
+margin-top: 15px;
+font-weight: 300;
+font-size: 13px;
+line-height: 16px;
+color: #B1B1B1;
+}
+.regisration-page-form-submit{
+margin-top: 39px;
+padding: 16px 29px;
+background-color: #F16D7F;
+border: none;
+color: #FFF;
+
+svg{
+fill: #FFF;
+margin-left: 20px;
+}
+}
+.regisration-page-perks{
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+}
+.regisration-page-perk-title{
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+}
+.regisration-page-perk-txt{
+    margin: 22px 0;
+}
+.regisration-page-perk-list li{
+    list-style: none;
+    background-image: url(../img/checkmark.svg);
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 42px;
+    margin-bottom: 16px;
+
+}
+@media (max-width: 1024px){
+    .regisration-page-form{
+        margin-right: 22px;
+    }
+}
+@media (max-width: 768px){
+    .regisration-page-perks{
+        font-size: 16px;
+        line-height: 19px;
+    }
+    .regisration-page-perk-txt {
+        margin: 22px 0 32px;
+    }
+}
+@media (max-width: 480px){
+    .regisration-page-form-wrp{
+        flex-direction: column;
+    }
+    .regisration-page-form{
+        min-width: 100%;
+        margin: 0 0 40px;
+    }
+    .regisration-page-form-input{
+        max-width: 100%;
+    }
+}
