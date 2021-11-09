@@ -1,4 +1,4 @@
-Vue.component('products', {
+const products = {
    data(){
        return {
            catalogUrl: '/catalogData.json',
@@ -29,8 +29,8 @@ Vue.component('products', {
                 :product="item"
                 @add-product="$parent.$refs.cart.addProduct"></product>
                </div>`
-});
-Vue.component('product', {
+};
+const product = {
     props: ['product', 'img'],
     template: `
 
@@ -54,4 +54,6 @@ Vue.component('product', {
                 </a>
             </article>
     `
-})
+}
+
+export default products

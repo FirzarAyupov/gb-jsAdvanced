@@ -1,11 +1,20 @@
-const linkListSection = document.getElementById('menu');
-
+import cart from './CartComponent'
+import products from './ProductComponent'
+import filterEl from './FilterComp'
+import error from './ErrorComp'
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-const app = new Vue({
+
+const app = {
     el: '#app',
     data: {
         userSearch: '',
+    },
+    components: {
+        cart,
+        products,
+        error,
+        'filter-el': filterEl
     },
     methods: {
         getJson(url){
@@ -65,5 +74,7 @@ const app = new Vue({
 
     }
 
-});
+};
+
+export default app;
 

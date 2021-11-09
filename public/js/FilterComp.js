@@ -1,4 +1,4 @@
-Vue.component('filter-el', {
+const filterEl = {
     data(){
       return {
           userSearch: ''
@@ -13,4 +13,6 @@ Vue.component('filter-el', {
                         <input class="page-header-search-input" id="search" type="text" placeholder="поиск" v-model="userSearch">
                     </label>
                 </form>`
-})
+}
+
+export default filterEl
